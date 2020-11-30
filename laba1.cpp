@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <vector>
+#include <windows.h>
+#include <stdio.h>
 using namespace std;
 
 
@@ -33,18 +35,59 @@ vector <ks> kss_data;
 
 
 // Проверяем, чтоб было введено натуральное число
-int is_realint(string msg) {
+int is_integer() {
 
     int user_input;
+    bool retry = true;
 
     do {
         cin.clear();
         cin.ignore(1000, '\n');
-        cout << msg;
         cin >> user_input;
     } while (cin.fail() || user_input > 7 || user_input < 0);
 
     return user_input;
+
+}
+
+
+// Проверяем, чтоб было введена переменная типа float
+float is_float() {
+
+    float user_input;
+    bool retry = true;
+
+    do {
+        if (!retry) cout << "   Некорректный ввод, введите еще раз >> ";
+        cin.clear();
+        cin.ignore(1000, '\n');
+        cin >> user_input;
+        retry = false;
+    } while (cin.fail() || user_input < 0);
+
+    return user_input;
+}
+
+
+// Функция по добавлению трубы или узменению, зависит от вхлдных параметров
+void new_and_renew_trumpet() {
+
+    /* 
+    *  В этой функции мы создаем новую трубу и добавлем ее в простаранство всех труб
+    */
+
+    // Создаем трубу
+    trumpet current_trumpet;
+
+    // Получаем идентификатор трубы от пользователя
+    cout << "Введите идентификатор трубы:   ";
+
+
+    
+
+    // Пользователь заполняет остальную информацию о трубе
+    cout << "Введите длину трубы:   ";
+    current_trumpet.length = is_float();
 
 }
 
@@ -65,14 +108,15 @@ int main_menu()
 
     // Ввода пользователя (защита от текстового ввода, отр. чисел, чисел > кол-ва пунктов в меню
     int user_input_main;
-    user_input_main = is_realint("Выберите действие (0-7):     ");
+    cout << "Выберите действие (0-7):     ";
+    user_input_main = is_integer();
 
     // Запуск функционала программы
     switch (user_input_main)
     {
     case 1:
     {
-        cout << "Добавить трубу";
+        new_and_renew_trumpet();
         break;
     }
 
