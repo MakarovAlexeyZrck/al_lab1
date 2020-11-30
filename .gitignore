@@ -30,3 +30,17 @@
 *.exe
 *.out
 *.app
+Debug/laba1.exe.recipe
+Debug/laba1.ilk
+Debug/laba1.log
+Debug/laba1.pdb
+Debug/laba1.tlog/CL.command.1.tlog
+Debug/laba1.tlog/CL.read.1.tlog
+Debug/laba1.tlog/CL.write.1.tlog
+Debug/laba1.tlog/laba1.lastbuildstate
+Debug/laba1.tlog/link.command.1.tlog
+Debug/laba1.tlog/link.read.1.tlog
+Debug/laba1.tlog/link.write.1.tlog
+Debug/laba1.vcxproj.FileListAbsolute.txt
+Debug/vc142.idb
+Debug/vc142.pdb
