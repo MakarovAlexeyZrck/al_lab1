@@ -2,8 +2,34 @@
 //
 
 #include <iostream>
-
+#include <vector>
 using namespace std;
+
+
+// Используемые структуры данных
+struct trumpet
+{
+    int id;
+    float length;
+    float diam;
+    bool repaired = false;
+};
+
+struct ks
+{
+    int id;
+    char name[100];
+    int number;
+    int numberOfAvailable;
+    float efficiency;
+};
+
+
+// Глобальный вектор для информации о трубах
+vector <trumpet> trumpets_data;
+
+// Глобальный вектор для информации о КС
+vector <ks> kss_data;
 
 
 // Проверяем, чтоб было введено натуральное число
@@ -24,18 +50,18 @@ int is_realint(string msg) {
 
 
 // Функция с вводом и проверкой начальной комманды первоначальной команды
-int main_menu() 
+int main_menu()
 {
 
     // Меню пользователя по выбору функции программы
     cout << "1. Добавить трубу" << endl <<
-            "2. Добавить КС" << endl <<
-            "3. Просмотр всех объектов" << endl <<
-            "4. Редактировать трубу" << endl <<
-            "5. Редактировать КС" << endl <<
-            "6. Сохранить" << endl <<
-            "7. Загрузить" << endl <<
-            "0. Выход" << endl;
+        "2. Добавить КС" << endl <<
+        "3. Просмотр всех объектов" << endl <<
+        "4. Редактировать трубу" << endl <<
+        "5. Редактировать КС" << endl <<
+        "6. Сохранить" << endl <<
+        "7. Загрузить" << endl <<
+        "0. Выход" << endl;
 
     // Ввода пользователя (защита от текстового ввода, отр. чисел, чисел > кол-ва пунктов в меню
     int user_input_main;
@@ -44,52 +70,52 @@ int main_menu()
     // Запуск функционала программы
     switch (user_input_main)
     {
-        case 1:
-        {
-            cout << "Добавить трубу";
-            break;
-        }
+    case 1:
+    {
+        cout << "Добавить трубу";
+        break;
+    }
 
-        case 2:
-        {
-            cout << "Добавить КС";
-            break;
-        }
+    case 2:
+    {
+        cout << "Добавить КС";
+        break;
+    }
 
-        case 3:
-        {
-            cout << "Отобразить все элементы";
-            break;
-        }
+    case 3:
+    {
+        cout << "Отобразить все элементы";
+        break;
+    }
 
-        case 4:
-        {
-            cout << "Исправить трубу";
-            break;
-        }
+    case 4:
+    {
+        cout << "Исправить трубу";
+        break;
+    }
 
-        case 5:
-        {
-            cout << "Исправить КС";
-            break;
-        }
+    case 5:
+    {
+        cout << "Исправить КС";
+        break;
+    }
 
-        case 6:
-        {
-            cout << "Выполняем чтение из файла";
-            break;
-        }
+    case 6:
+    {
+        cout << "Выполняем чтение из файла";
+        break;
+    }
 
-        case 7:
-        {
-            cout << "Сохраним все данные в файл";
-            break;
-        }
-    
-        case 0:
-        {
-            return 0;
-        }
+    case 7:
+    {
+        cout << "Сохраним все данные в файл";
+        break;
+    }
+
+    case 0:
+    {
+        return 0;
+    }
     }
 
     cout << "\n\n";
