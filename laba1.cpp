@@ -3,8 +3,7 @@
 
 #include <iostream>
 #include <vector>
-#include <windows.h>
-#include <stdio.h>
+
 using namespace std;
 
 
@@ -14,7 +13,7 @@ struct trumpet
     int id;
     float length;
     float diam;
-    bool repaired = false;
+    bool repaired = 0;
 };
 
 struct ks
@@ -35,44 +34,61 @@ vector <ks> kss_data;
 
 
 // Проверяем, чтоб было введено натуральное число
-int is_integer() {
+int is_invalidinput(string msg) {
 
     int user_input;
-    bool retry = true;
 
     do {
         cin.clear();
         cin.ignore(1000, '\n');
+        cout << msg;
         cin >> user_input;
-    } while (cin.fail() || user_input > 7 || user_input < 0);
+    } while (cin.fail() || user_input < 0 || user_input > 7);
 
     return user_input;
-
 }
 
 
 // Проверяем, чтоб было введена переменная типа float
-float is_float() {
+float is_float(string msg) {
 
     float user_input;
-    bool retry = true;
 
     do {
-        if (!retry) cout << "   Некорректный ввод, введите еще раз >> ";
         cin.clear();
         cin.ignore(1000, '\n');
+        cout << msg;
         cin >> user_input;
-        retry = false;
     } while (cin.fail() || user_input < 0);
 
     return user_input;
 }
 
 
-// Функция по добавлению трубы или узменению, зависит от вхлдных параметров
-void new_and_renew_trumpet() {
+// Ввод целого неотрицательного числа от пользователя
+int is_integer(string msg) {
 
-    /* 
+    int user_input;
+
+    do {
+        cin.clear();
+        cin.ignore(1000, '\n');
+        cout << msg;
+        cin >> user_input;
+    } while (cin.fail() || user_input < 0);
+
+    return user_input;
+}
+
+
+// Ввод булевого значения
+
+
+
+// Функция по добавлению трубы или узменению, зависит от вхлдных параметров
+void new_trumpet() {
+
+    /*
     *  В этой функции мы создаем новую трубу и добавлем ее в простаранство всех труб
     */
 
@@ -80,14 +96,12 @@ void new_and_renew_trumpet() {
     trumpet current_trumpet;
 
     // Получаем идентификатор трубы от пользователя
-    cout << "Введите идентификатор трубы:   ";
+    current_trumpet.id = is_integer("Введите идентификатор трубы:   ");
 
 
-    
 
     // Пользователь заполняет остальную информацию о трубе
-    cout << "Введите длину трубы:   ";
-    current_trumpet.length = is_float();
+    current_trumpet.length = is_float("Введите длину трубы:   ");
 
 }
 
@@ -98,25 +112,25 @@ int main_menu()
 
     // Меню пользователя по выбору функции программы
     cout << "1. Добавить трубу" << endl <<
-        "2. Добавить КС" << endl <<
-        "3. Просмотр всех объектов" << endl <<
-        "4. Редактировать трубу" << endl <<
-        "5. Редактировать КС" << endl <<
-        "6. Сохранить" << endl <<
-        "7. Загрузить" << endl <<
-        "0. Выход" << endl;
+            "2. Добавить КС" << endl <<
+            "3. Просмотр всех объектов" << endl <<
+            "4. Редактировать трубу" << endl <<
+            "5. Редактировать КС" << endl <<
+            "6. Сохранить" << endl <<
+            "7. Загрузить" << endl <<
+            "0. Выход" << endl;
 
     // Ввода пользователя (защита от текстового ввода, отр. чисел, чисел > кол-ва пунктов в меню
     int user_input_main;
-    cout << "Выберите действие (0-7):     ";
-    user_input_main = is_integer();
+    user_input_main = is_invalidinput("Выберите необходимую функцию или задайте ее снова(1-7):  ");
 
     // Запуск функционала программы
     switch (user_input_main)
     {
     case 1:
     {
-        new_and_renew_trumpet();
+        cout << " --- Создание новой трубы --- " << endl;
+        new_trumpet();
         break;
     }
 
@@ -160,6 +174,7 @@ int main_menu()
     {
         return 0;
     }
+
     }
 
     cout << "\n\n";

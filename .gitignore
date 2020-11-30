@@ -47,3 +47,5 @@ Debug/vc142.pdb
 *.lastbuildstate
 *.tlog
 *.txt
+/x64/Debug
+/.vs/laba1/v16
