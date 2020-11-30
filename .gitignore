@@ -49,3 +49,7 @@ Debug/vc142.pdb
 *.txt
 /x64/Debug
 /.vs/laba1/v16
+laba1
+.vscode/launch.json
+.vscode/tasks.json
+laba1.dSYM/Contents/Info.plist

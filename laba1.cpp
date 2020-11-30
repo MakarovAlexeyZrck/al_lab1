@@ -82,26 +82,96 @@ int is_integer(string msg) {
 
 
 // Ввод булевого значения
+bool is_bool(string msg) {
+
+    bool user_input = 1;
+
+    do {
+        cin.clear();
+        cin.ignore(1000, '\n');
+        cout << msg;
+        cin >> user_input;
+    } while (cin.fail() || user_input < 0 || user_input > 2);
+
+    return user_input;
+
+}
 
 
-
-// Функция по добавлению трубы или узменению, зависит от вхлдных параметров
+// Функция по добавлению трубы
 void new_trumpet() {
 
     /*
-    *  В этой функции мы создаем новую трубу и добавлем ее в простаранство всех труб
+        *  В этой функции мы создаем новую трубу и добавлем ее в простаранство всех труб
     */
 
     // Создаем трубу
     trumpet current_trumpet;
 
+
     // Получаем идентификатор трубы от пользователя
     current_trumpet.id = is_integer("Введите идентификатор трубы:   ");
 
-
-
     // Пользователь заполняет остальную информацию о трубе
     current_trumpet.length = is_float("Введите длину трубы:   ");
+
+    // Добавляем диаметр трубы
+    current_trumpet.diam = is_float("Введите диаметр трубы:   ");
+
+    // Добавляем признак в работе или нет
+    current_trumpet.repaired = is_bool("Труба в работе? (1 - да, 0 - нет):  ");
+
+
+    cout << "\nДобавлена новая труба: " << endl;
+    cout << "Идентификатор: " << current_trumpet.id << endl;
+    cout << "Длина: " << current_trumpet.length << endl;
+    cout << "Диаметр трубы: " << current_trumpet.diam << endl;
+    cout << (current_trumpet.repaired ? "Труба в ремонте" : "Труба работает") << endl;
+
+}
+
+
+// Добавляем новую КС
+void new_ks() {
+
+    /*
+        *  В этой функции мы создаем новую компрессорную станцию и добавляем ее в пространство всех кс
+    */
+
+    // Создаем трубу
+    ks current_ks;
+
+
+    // Получаем идентификатор КС от пользователя
+    current_ks.id = is_integer("Введите идентификатор КС:   ");
+
+    // Пользователь заполняет имя КС
+    cout << "Введите наименование КС:   ";
+    cin >> current_ks.name;
+
+    // Пользователь вводит количество цехов
+    current_ks.number = is_integer("Введите количество цехов в КС:   ");
+
+    // Пользователь вводит количество цехов в работе
+    current_ks.numberOfAvailable = is_integer("Введите количество цехов КС в работе:   ");
+
+    // Цехов в работе должно быть меньше, чем цехов всего
+    if (current_ks.numberOfAvailable > current_ks.number){
+        while (current_ks.numberOfAvailable >= current_ks.number){
+            current_ks.numberOfAvailable = is_integer("Введенное число цехов в работе превышает число всех цехов:   ");
+        }
+    }
+
+    // Введите показатель эфективности КС
+    current_ks.efficiency = is_float("Введите показатель эффекти́вности:     ");
+
+
+    cout << "\nДобавлена новая КС: " << endl;
+    cout << "Идентификатор: " << current_ks.id << endl;
+    cout << "Наименованиие: " << current_ks.name << endl;
+    cout << "Кол-во цехов всего: " << current_ks.number << endl;
+    cout << "Кол-во цехов в работе: " << current_ks.numberOfAvailable << endl;
+    cout << "Эффективность КС: " << current_ks.efficiency << endl;
 
 }
 
@@ -129,14 +199,15 @@ int main_menu()
     {
     case 1:
     {
-        cout << " --- Создание новой трубы --- " << endl;
+        cout << endl << " --- Создание новой трубы --- " << endl;
         new_trumpet();
         break;
     }
 
     case 2:
     {
-        cout << "Добавить КС";
+        cout << endl << " --- Создание новой КС --- " << endl;
+        new_ks();
         break;
     }
 
