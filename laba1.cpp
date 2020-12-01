@@ -4,6 +4,7 @@
 #include <iostream>
 #include <vector>
 
+
 using namespace std;
 
 
@@ -119,7 +120,7 @@ void new_trumpet() {
     current_trumpet.diam = is_float("Введите диаметр трубы:   ");
 
     // Добавляем признак в работе или нет
-    current_trumpet.repaired = is_bool("Труба в работе? (1 - да, 0 - нет):  ");
+    current_trumpet.repaired = is_bool("Труба в ремонте? (1 - да, 0 - нет):  ");
 
 
     cout << "\nДобавлена новая труба: " << endl;
@@ -127,6 +128,8 @@ void new_trumpet() {
     cout << "Длина: " << current_trumpet.length << endl;
     cout << "Диаметр трубы: " << current_trumpet.diam << endl;
     cout << (current_trumpet.repaired ? "Труба в ремонте" : "Труба работает") << endl;
+
+    trumpets_data.push_back(current_trumpet);
 
 }
 
@@ -157,7 +160,7 @@ void new_ks() {
 
     // Цехов в работе должно быть меньше, чем цехов всего
     if (current_ks.numberOfAvailable > current_ks.number){
-        while (current_ks.numberOfAvailable >= current_ks.number){
+        while (current_ks.numberOfAvailable > current_ks.number){
             current_ks.numberOfAvailable = is_integer("Введенное число цехов в работе превышает число всех цехов:   ");
         }
     }
@@ -172,6 +175,129 @@ void new_ks() {
     cout << "Кол-во цехов всего: " << current_ks.number << endl;
     cout << "Кол-во цехов в работе: " << current_ks.numberOfAvailable << endl;
     cout << "Эффективность КС: " << current_ks.efficiency << endl;
+
+    kss_data.push_back(current_ks);
+
+}
+
+
+// Просмотр всех существующих объектов
+void show_all(int is_trumpet, int is_ks) {
+
+    /*
+        *  В этой функции мы просматриваем все объекты
+    */
+    
+    if (is_trumpet == 1) {
+        // Отображение всех труб 
+        int trumpets_count;
+        trumpets_count = trumpets_data.size();
+        if (trumpets_count == 0) {
+            cout << "\nТрубы не добавлены. Введите 1 для добавлениия труб ... \n\n";
+        }
+        else
+        {
+            cout << "\nTRUMPETS DATA \n";
+            for (auto& im : trumpets_data) {
+                cout << "Идентификатор трубы: " << im.id << ", длина трубы: " << im.length << ", диаметр трубы: " << im.diam << ", состояние трубы: " << (im.repaired ? "Труба в ремонте" : "Труба работает") << endl;
+
+            }
+        }
+    }
+
+    if (is_ks == 1) {
+        // Отоюражение всех КС и их характеристик 
+        int kss_count;
+        kss_count = kss_data.size();
+        if (kss_count == 0) {
+            cout << "\nКС отсутствуют. Введите 2 для добавлениия КС ... \n\n";
+        }
+        else
+        {
+            cout << "\nKS DATA \n";
+            for (auto& im : kss_data) {
+                cout << "Идентификатор КС: " << im.id << ", наменование КС: " << im.name << ", кол-во цехов КС: " << im.number << ", цехов в работе: " << im.numberOfAvailable << ", эффективность КС: " << im.efficiency << endl;
+            }
+        }
+    }
+
+    cout << endl;
+
+}
+
+
+// Изменение статуса трубы 
+void trumpet_editor() {
+
+    /*
+         * Изменение статуса трубы
+    */
+
+    show_all(1, 0);
+    bool was_rewrite = false;
+
+    // Перебор объектов, если индекс совпадает с вводимым - меняем состояние трубы
+    if (trumpets_data.size() == 0) {
+        
+    }
+    else {
+        int trumpet_id;
+        trumpet_id = is_integer("Выберите идентификатор редактируемой трубы:    ");
+        for (auto& im : trumpets_data) {
+            if (im.id == trumpet_id) {
+                im.repaired = is_bool("Труба в ремонте? (1 - да, 0 - нет):  ");
+                cout << "Статус трубы изменен!";
+                was_rewrite = true;
+            }
+        }
+    }
+
+    if ((was_rewrite == false) & (trumpets_data.size() != 0)) {
+        cout << "Проверьте идентификатор и запустити функцию снова. Трубы с данным идентификатором не существует";
+    }
+
+}
+
+
+// Изменение статуса КС
+void ks_editor() {
+
+    /*
+         * В данной функции мы изменяем количество активных цехов КС
+    */
+    show_all(0, 1);
+    bool was_rewrite = false;
+    int should_repair = 0;
+
+    // Перебор объектов, если индекс совпадает с вводимым - меняем состояние трубы
+    if (kss_data.size() == 0) {
+
+    }
+    else {
+        int ks_id;
+        ks_id = is_integer("Выберите идентификатор редактируемой КС:    ");
+        for (auto& im : kss_data) {
+            if (im.id == ks_id) {
+
+                should_repair = is_integer("Добавить работающий цех? (1 - да, 0 - нет):  ");
+                if (should_repair >= 1) {
+                    if ((im.numberOfAvailable + 1) <= (im.number)) {
+                        im.numberOfAvailable = im.numberOfAvailable + 1;
+                        cout << "Кол-во работающих цехов изменено!";
+                        was_rewrite = true;
+                    }
+                    else {
+                        cout << "Невозможно добавить из-за логической ошибки";
+                        was_rewrite = true;
+                    }
+                }
+            }
+        }
+    }
+
+    if ((was_rewrite == false) & (kss_data.size() != 0)) {
+        cout << "Проверьте идентификатор и запустити функцию снова. КС с данным идентификатором не существует";
+    }
 
 }
 
@@ -213,19 +339,22 @@ int main_menu()
 
     case 3:
     {
-        cout << "Отобразить все элементы";
+        cout << endl << " --- Просмотр всех объектов --- " << endl;
+        show_all(1, 1);
         break;
     }
 
     case 4:
     {
-        cout << "Исправить трубу";
+        cout << endl << " --- Изменение статуса трубы --- " << endl;
+        trumpet_editor();
         break;
     }
 
     case 5:
     {
-        cout << "Исправить КС";
+        cout << endl << " --- Изменение кол-ва активных цехов КС --- " << endl;
+        ks_editor();
         break;
     }
 
