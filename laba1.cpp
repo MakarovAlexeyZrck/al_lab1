@@ -3,6 +3,8 @@
 
 #include <iostream>
 #include <vector>
+#include <fstream>
+#include <string>
 
 
 using namespace std;
@@ -302,6 +304,83 @@ void ks_editor() {
 }
 
 
+// Выполнение чтения данных из файла
+void read_data() {
+    
+    ifstream fin("input.txt");
+    if (!fin.is_open())
+        cout << "Файл не может быть открыт!\n";
+    else {
+        string buff;
+        string here;
+        while (fin >> buff)
+        {
+            if (buff == "t")
+            {
+                trumpet current_trumpet;
+                fin >> current_trumpet.id;
+                fin >> current_trumpet.length;
+                fin >> current_trumpet.diam;
+                fin >> current_trumpet.repaired;
+                trumpets_data.push_back(current_trumpet);
+            }
+            else if (buff == "ks") {
+                ks current_ks;
+                fin >> current_ks.id;
+                fin >> current_ks.name;
+                fin >> current_ks.number;
+                fin >> current_ks.numberOfAvailable;
+                fin >> current_ks.efficiency;
+                kss_data.push_back(current_ks);
+            }
+        }
+    }
+    cout << "\nДанные успешно прочитаны ... \n\n";
+    fin.close();
+}
+
+
+// Выполнение записи в файл
+void output_data() {
+
+    bool was_output = false;
+    ofstream fout;
+    fout.open("output.txt");
+    if (!fout.is_open())
+        cout << "Файл не может быть открыт!\n";
+    else {
+
+        if (trumpets_data.size() == 0){
+            cout << "Данных о трубах нет. Введите 1, чтобы добавить\n";
+        }
+        else {
+            for (auto& ct : trumpets_data)
+            {
+                fout << ct.id << " " << ct.length << " " << ct.diam << " " << ct.repaired << endl;
+            }
+            was_output = true;
+        }
+
+        if (trumpets_data.size() == 0) {
+            cout << "Данных о КС нет. Введите 2, чтобы добавить\n";
+        }
+        else {
+            for (auto& cks : kss_data)
+            {
+                fout << cks.id << " " << cks.name << " " << cks.number << " " << cks.numberOfAvailable << " " << cks.efficiency << endl;
+            }
+            was_output = true;
+        }
+
+        if (was_output) {
+            cout << "Данные успешно выведены!\n";
+        }
+
+        fout.close();
+    }
+}
+
+
 // Функция с вводом и проверкой начальной комманды первоначальной команды
 int main_menu()
 {
@@ -312,8 +391,8 @@ int main_menu()
             "3. Просмотр всех объектов" << endl <<
             "4. Редактировать трубу" << endl <<
             "5. Редактировать КС" << endl <<
-            "6. Сохранить" << endl <<
-            "7. Загрузить" << endl <<
+            "6. Загрузить" << endl <<
+            "7. Сохранить" << endl <<
             "0. Выход" << endl;
 
     // Ввода пользователя (защита от текстового ввода, отр. чисел, чисел > кол-ва пунктов в меню
@@ -360,13 +439,15 @@ int main_menu()
 
     case 6:
     {
-        cout << "Выполняем чтение из файла";
+        cout << endl << " --- Чтение данных из файла --- " << endl;
+        read_data();
         break;
     }
 
     case 7:
     {
-        cout << "Сохраним все данные в файл";
+        cout << endl << " --- Запись данных в файла --- " << endl;
+        output_data();
         break;
     }
 
