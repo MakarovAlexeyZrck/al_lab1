@@ -29,13 +29,6 @@ struct ks
 };
 
 
-// Глобальный вектор для информации о трубах
-vector <trumpet> trumpets_data;
-
-// Глобальный вектор для информации о КС
-vector <ks> kss_data;
-
-
 // Проверяем, чтоб было введено натуральное число
 int is_invalidinput(string msg) {
 
@@ -102,7 +95,7 @@ bool is_bool(string msg) {
 
 
 // Функция по добавлению трубы
-void new_trumpet() {
+void new_trumpet(vector<trumpet>& trumpets_data) {
 
     /*
         *  В этой функции мы создаем новую трубу и добавлем ее в простаранство всех труб
@@ -129,7 +122,7 @@ void new_trumpet() {
     cout << "Идентификатор: " << current_trumpet.id << endl;
     cout << "Длина: " << current_trumpet.length << endl;
     cout << "Диаметр трубы: " << current_trumpet.diam << endl;
-    cout << (current_trumpet.repaired ? "Труба в ремонте" : "Труба работает") << endl;
+    cout << (current_trumpet.repaired ? "Труба в ремонте" : "Труба работает") << endl << endl;
 
     trumpets_data.push_back(current_trumpet);
 
@@ -137,7 +130,7 @@ void new_trumpet() {
 
 
 // Добавляем новую КС
-void new_ks() {
+void new_ks(vector<ks>& kss_data) {
 
     /*
         *  В этой функции мы создаем новую компрессорную станцию и добавляем ее в пространство всех кс
@@ -168,7 +161,7 @@ void new_ks() {
     }
 
     // Введите показатель эфективности КС
-    current_ks.efficiency = is_float("Введите показатель эффекти́вности:     ");
+    current_ks.efficiency = is_float("Введите показатель эффективности:     ");
 
 
     cout << "\nДобавлена новая КС: " << endl;
@@ -176,7 +169,7 @@ void new_ks() {
     cout << "Наименованиие: " << current_ks.name << endl;
     cout << "Кол-во цехов всего: " << current_ks.number << endl;
     cout << "Кол-во цехов в работе: " << current_ks.numberOfAvailable << endl;
-    cout << "Эффективность КС: " << current_ks.efficiency << endl;
+    cout << "Эффективность КС: " << current_ks.efficiency << endl << endl;
 
     kss_data.push_back(current_ks);
 
@@ -184,7 +177,7 @@ void new_ks() {
 
 
 // Просмотр всех существующих объектов
-void show_all(int is_trumpet, int is_ks) {
+void show_all(int is_trumpet, int is_ks, vector<trumpet> trumpets_data, vector<ks> kss_data) {
 
     /*
         *  В этой функции мы просматриваем все объекты
@@ -195,7 +188,7 @@ void show_all(int is_trumpet, int is_ks) {
         int trumpets_count;
         trumpets_count = trumpets_data.size();
         if (trumpets_count == 0) {
-            cout << "\nТрубы не добавлены. Введите 1 для добавлениия труб ... \n\n";
+            cout << "\nТрубы не добавлены. Введите 1 для добавлениия труб ...";
         }
         else
         {
@@ -212,7 +205,7 @@ void show_all(int is_trumpet, int is_ks) {
         int kss_count;
         kss_count = kss_data.size();
         if (kss_count == 0) {
-            cout << "\nКС отсутствуют. Введите 2 для добавлениия КС ... \n\n";
+            cout << "\nКС отсутствуют. Введите 2 для добавлениия КС ...";
         }
         else
         {
@@ -229,18 +222,18 @@ void show_all(int is_trumpet, int is_ks) {
 
 
 // Изменение статуса трубы 
-void trumpet_editor() {
+void trumpet_editor(vector<trumpet>& trumpets_data, vector<ks>& ks_data) {
 
     /*
          * Изменение статуса трубы
     */
 
-    show_all(1, 0);
+    show_all(1, 0, trumpets_data, ks_data);
     bool was_rewrite = false;
 
     // Перебор объектов, если индекс совпадает с вводимым - меняем состояние трубы
     if (trumpets_data.size() == 0) {
-        
+
     }
     else {
         int trumpet_id;
@@ -248,26 +241,25 @@ void trumpet_editor() {
         for (auto& im : trumpets_data) {
             if (im.id == trumpet_id) {
                 im.repaired = is_bool("Труба в ремонте? (1 - да, 0 - нет):  ");
-                cout << "Статус трубы изменен!";
+                cout << "Статус трубы изменен!" << endl << endl;
                 was_rewrite = true;
             }
         }
     }
 
     if ((was_rewrite == false) & (trumpets_data.size() != 0)) {
-        cout << "Проверьте идентификатор и запустити функцию снова. Трубы с данным идентификатором не существует";
+        cout << "Проверьте идентификатор и запустите функцию снова. Трубы с данным идентификатором не существует" << endl << endl;
     }
-
 }
 
 
 // Изменение статуса КС
-void ks_editor() {
+void ks_editor(vector<trumpet>& trumpets_data, vector<ks>& kss_data) {
 
     /*
          * В данной функции мы изменяем количество активных цехов КС
     */
-    show_all(0, 1);
+    show_all(0, 1, trumpets_data, kss_data);
     bool was_rewrite = false;
     int should_repair = 0;
 
@@ -285,11 +277,11 @@ void ks_editor() {
                 if (should_repair >= 1) {
                     if ((im.numberOfAvailable + 1) <= (im.number)) {
                         im.numberOfAvailable = im.numberOfAvailable + 1;
-                        cout << "Кол-во работающих цехов изменено!";
+                        cout << "Кол-во работающих цехов изменено!" << endl << endl;
                         was_rewrite = true;
                     }
                     else {
-                        cout << "Невозможно добавить из-за логической ошибки";
+                        cout << "Невозможно добавить из-за логической ошибки" << endl << endl;
                         was_rewrite = true;
                     }
                 }
@@ -298,14 +290,14 @@ void ks_editor() {
     }
 
     if ((was_rewrite == false) & (kss_data.size() != 0)) {
-        cout << "Проверьте идентификатор и запустити функцию снова. КС с данным идентификатором не существует";
+        cout << "Проверьте идентификатор и запустити функцию снова. КС с данным идентификатором не существует" << endl << endl;
     }
 
 }
 
 
 // Выполнение чтения данных из файла
-void read_data() {
+void read_data(vector<trumpet>& trumpets_data, vector<ks>& kss_data) {
     
     ifstream fin("input.txt");
     if (!fin.is_open())
@@ -335,13 +327,13 @@ void read_data() {
             }
         }
     }
-    cout << "\nДанные успешно прочитаны ... \n\n";
+    cout << "Данные успешно прочитаны ... \n\n";
     fin.close();
 }
 
 
 // Выполнение записи в файл
-void output_data() {
+void output_data(vector<trumpet> trumpets_data, vector<ks> kss_data) {
 
     bool was_output = false;
     ofstream fout;
@@ -356,18 +348,18 @@ void output_data() {
         else {
             for (auto& ct : trumpets_data)
             {
-                fout << ct.id << " " << ct.length << " " << ct.diam << " " << ct.repaired << endl;
+                fout << "t " << ct.id << " " << ct.length << " " << ct.diam << " " << ct.repaired << endl;
             }
             was_output = true;
         }
 
         if (trumpets_data.size() == 0) {
-            cout << "Данных о КС нет. Введите 2, чтобы добавить\n";
+            cout << "Данных о КС нет. Введите 2, чтобы добавить" << endl;
         }
         else {
             for (auto& cks : kss_data)
             {
-                fout << cks.id << " " << cks.name << " " << cks.number << " " << cks.numberOfAvailable << " " << cks.efficiency << endl;
+                fout << "ks " << cks.id << " " << cks.name << " " << cks.number << " " << cks.numberOfAvailable << " " << cks.efficiency << endl;
             }
             was_output = true;
         }
@@ -378,11 +370,13 @@ void output_data() {
 
         fout.close();
     }
+
+    cout << endl;
 }
 
 
 // Функция с вводом и проверкой начальной комманды первоначальной команды
-int main_menu()
+int main_menu(vector<trumpet>& trumpets_data, vector<ks>& ks_data)
 {
 
     // Меню пользователя по выбору функции программы
@@ -393,11 +387,10 @@ int main_menu()
             "5. Редактировать КС" << endl <<
             "6. Загрузить" << endl <<
             "7. Сохранить" << endl <<
-            "0. Выход" << endl;
+            "0. Выход" << endl;;
 
     // Ввода пользователя (защита от текстового ввода, отр. чисел, чисел > кол-ва пунктов в меню
-    int user_input_main;
-    user_input_main = is_invalidinput("Выберите необходимую функцию или задайте ее снова(1-7):  ");
+    int user_input_main = is_invalidinput("Введите желаемое действие (1-7): ");
 
     // Запуск функционала программы
     switch (user_input_main)
@@ -405,49 +398,49 @@ int main_menu()
     case 1:
     {
         cout << endl << " --- Создание новой трубы --- " << endl;
-        new_trumpet();
+        new_trumpet(trumpets_data);
         break;
     }
 
     case 2:
     {
         cout << endl << " --- Создание новой КС --- " << endl;
-        new_ks();
+        new_ks(ks_data);
         break;
     }
 
     case 3:
     {
         cout << endl << " --- Просмотр всех объектов --- " << endl;
-        show_all(1, 1);
+        show_all(1, 1, trumpets_data, ks_data);
         break;
     }
 
     case 4:
     {
         cout << endl << " --- Изменение статуса трубы --- " << endl;
-        trumpet_editor();
-        break;
+        trumpet_editor(trumpets_data, ks_data);
+        return 1;
     }
 
     case 5:
     {
         cout << endl << " --- Изменение кол-ва активных цехов КС --- " << endl;
-        ks_editor();
-        break;
+        ks_editor(trumpets_data, ks_data);
+        return 1;
     }
 
     case 6:
     {
         cout << endl << " --- Чтение данных из файла --- " << endl;
-        read_data();
+        read_data(trumpets_data, ks_data);
         break;
     }
 
     case 7:
     {
         cout << endl << " --- Запись данных в файла --- " << endl;
-        output_data();
+        output_data(trumpets_data, ks_data);
         break;
     }
 
@@ -458,12 +451,18 @@ int main_menu()
 
     }
 
-    cout << "\n\n";
 
 }
 
 int main()
 {
+
+    // Глобальный вектор для информации о трубах
+    vector <trumpet> trumpets_data;
+
+    // Глобальный вектор для информации о КС
+    vector <ks> kss_data;
+
     // Делаем отображение русского текста в консоли
     setlocale(LC_ALL, "Russian");
 
@@ -472,7 +471,7 @@ int main()
 
     // До тех пор, пока пользователь не введет нуль из главного меню - программа выполняется
     while (user_point != 0) {
-        user_point = main_menu();
+        user_point = main_menu(trumpets_data, kss_data);
     }
 
     cout << "\n\nПрограмма завершила работу!!! \n\n";
