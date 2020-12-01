@@ -333,7 +333,7 @@ void read_data(vector<trumpet>& trumpets_data, vector<ks>& kss_data) {
 
 
 // Выполнение записи в файл
-void output_data(vector<trumpet> trumpets_data, vector<ks> kss_data) {
+void output_data(const vector<trumpet> trumpets_data, const vector<ks> kss_data) {
 
     bool was_output = false;
     ofstream fout;
