@@ -87,7 +87,7 @@ bool is_bool(string msg) {
         cin.ignore(1000, '\n');
         cout << msg;
         cin >> user_input;
-    } while (cin.fail() || user_input < 0 || user_input > 2);
+    } while (cin.fail());
 
     return user_input;
 
@@ -177,7 +177,7 @@ void new_ks(vector<ks>& kss_data) {
 
 
 // Просмотр всех существующих объектов
-void show_all(int is_trumpet, int is_ks, vector<trumpet> trumpets_data, vector<ks> kss_data) {
+void show_all(int is_trumpet, int is_ks, const vector<trumpet>& trumpets_data, const vector<ks>& kss_data) {
 
     /*
         *  В этой функции мы просматриваем все объекты
@@ -185,7 +185,7 @@ void show_all(int is_trumpet, int is_ks, vector<trumpet> trumpets_data, vector<k
     
     if (is_trumpet == 1) {
         // Отображение всех труб 
-        int trumpets_count;
+        size_t trumpets_count;
         trumpets_count = trumpets_data.size();
         if (trumpets_count == 0) {
             cout << "\nТрубы не добавлены. Введите 1 для добавлениия труб ...";
@@ -202,10 +202,10 @@ void show_all(int is_trumpet, int is_ks, vector<trumpet> trumpets_data, vector<k
 
     if (is_ks == 1) {
         // Отоюражение всех КС и их характеристик 
-        int kss_count;
+        size_t kss_count;
         kss_count = kss_data.size();
         if (kss_count == 0) {
-            cout << "\nКС отсутствуют. Введите 2 для добавлениия КС ...";
+            cout << "\nКС отсутствуют. Введите 2 для добавлениия КС ..." << endl << endl;
         }
         else
         {
@@ -337,7 +337,7 @@ void output_data(const vector<trumpet> trumpets_data, const vector<ks> kss_data)
 
     bool was_output = false;
     ofstream fout;
-    fout.open("output.txt");
+    fout.open("input.txt");
     if (!fout.is_open())
         cout << "Файл не может быть открыт!\n";
     else {
@@ -399,21 +399,21 @@ int main_menu(vector<trumpet>& trumpets_data, vector<ks>& ks_data)
     {
         cout << endl << " --- Создание новой трубы --- " << endl;
         new_trumpet(trumpets_data);
-        break;
+        return 1;
     }
 
     case 2:
     {
         cout << endl << " --- Создание новой КС --- " << endl;
         new_ks(ks_data);
-        break;
+        return 1;
     }
 
     case 3:
     {
         cout << endl << " --- Просмотр всех объектов --- " << endl;
         show_all(1, 1, trumpets_data, ks_data);
-        break;
+        return 1;
     }
 
     case 4:
@@ -434,14 +434,14 @@ int main_menu(vector<trumpet>& trumpets_data, vector<ks>& ks_data)
     {
         cout << endl << " --- Чтение данных из файла --- " << endl;
         read_data(trumpets_data, ks_data);
-        break;
+        return 1;
     }
 
     case 7:
     {
         cout << endl << " --- Запись данных в файла --- " << endl;
         output_data(trumpets_data, ks_data);
-        break;
+        return 1;
     }
 
     case 0:
@@ -450,7 +450,8 @@ int main_menu(vector<trumpet>& trumpets_data, vector<ks>& ks_data)
     }
 
     }
-
+    
+    return 0;
 
 }
 
